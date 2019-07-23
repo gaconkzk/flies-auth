@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  auth:
+    image: flies-auth
+    environment:
+      FA_PORT: 8088
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: flies_auth
+      POSTGRES_PASSWORD: fl13s_Auth
+      POSTGRES_DB: flies_auth
+    ports:
+      - 127.0.0.1:5432:5432
+    volumes:
+      - flies_postgres:/var/lib/postgresql/data
+
+volumes:
+  flies_postgres:

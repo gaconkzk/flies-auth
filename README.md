@@ -3,6 +3,7 @@
 
 This is use for manage auth, and... may be permission, users information management
 
+- [] project setting up
 - [] core backbone
 - [] Auth, session
 - [] Permissions
