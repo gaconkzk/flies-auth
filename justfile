@@ -24,4 +24,4 @@ clean:
 
 dockit: _init_docker _build_musl
   cp target/release/flies-auth docker/.deploy
-  docker build -t flies-auth docker
+  docker build -q -t flies-auth docker
