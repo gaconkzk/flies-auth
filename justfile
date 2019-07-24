@@ -4,25 +4,28 @@
 
 export RUSTC_WRAPPER := `which sccache`
 
-startdb:
+@startdb:
   docker-compose -f docker/docker-compose.yml up -d db
 
-watch:
-  watchexec --restart "just dockit && docker-compose -f docker/docker-compose.yml up auth"
+@dev:
+  watchexec --restart "just dockit && docker-compose -f docker/docker-compose.yml up -d auth"
 
-build:
-  cargo build --release
+@watchlog:
+  docker-compose -f docker/docker-compose.yml logs -f auth
 
-_init_docker:
+@build:
+  cargo build -q --release
+
+@_init_docker:
   rm -rf docker/.deploy
   mkdir -p docker/.deploy
 
-test:
+@test:
   cargo test
 
-clean:
+@clean:
   cargo clean
 
-dockit: _init_docker build
+@dockit: _init_docker build
   cp target/release/flies-auth docker/.deploy
   docker build -q -t flies-auth docker
