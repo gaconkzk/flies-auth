@@ -3,8 +3,11 @@ production_build := "cargo build --release"
 # for development watch for change recompile and run
 # note: we need to start the postgres server first at localhost:5432
 #   should use the `db` created in docker-compose
+startdb:
+  docker-compose -f docker/docker-compose.yml up -d db
+
 watch:
-  watchexec --restart "just dockit && docker-compose -f docker/docker-compose.yml up"
+  watchexec --restart "just dockit && docker-compose -f docker/docker-compose.yml up auth"
 
 build:
   {{production_build}}
