@@ -2,3 +2,6 @@
 **/*.rs.bk
 
 docker/.deploy
+
+# local env
+.env

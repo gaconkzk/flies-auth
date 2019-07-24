@@ -1,10 +1,16 @@
 production_build := "cargo build --release"
 
+# for development watch for change recompile and run
+# note: we need to start the postgres server first at localhost:5432
+#   should use the `db` created in docker-compose
+watch:
+  watchexec --restart "just dockit && docker-compose -f docker/docker-compose.yml up"
+
 build:
   {{production_build}}
 
 _build_musl:
-  {{production_build}} --target x86_64-unknown-linux-musl
+  {{production_build}}
 
 _init_docker:
   rm -rf docker/.deploy
@@ -13,6 +19,6 @@ _init_docker:
 clean:
   cargo clean
 
-dockit: clean _init_docker _build_musl
-  cp target/x86_64-unknown-linux-musl/release/flies-auth docker/.deploy
+dockit: _init_docker _build_musl
+  cp target/release/flies-auth docker/.deploy
   docker build -t flies-auth docker

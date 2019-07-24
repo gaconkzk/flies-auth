@@ -1,41 +1,15 @@
-# Step 1 - Project setting up
+# Step 1 - Basic web project
 -----
 
-You need to clone this project from github.
+The `diesel` model:
 
-For this service, I'll use PostgreSQL, you can add it easily by running docker command
+```rust
+// models.rs
+use diesel::{r2d2::ConnectionManager, PgConnection};
 
-```shell
-# first time run
-docker run --name postgresd -e POST_PASSWORD=fl13s_Auth -d postgres -p
-
-# after first time, we can just start
-docker start postgresd
+// type alias to use in multiple places
+pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 ```
 
-For building, deploying, and develop this project, I'm using `just`
-Install it using `cargo`
-
-```shell
-cargo install just
-```
-
-For building normal
-```shell
-just build
-```
-
-For docker image `flies-auth`
-```shell
-just dockit
-```
-
-For cleaning
-```shell
-just clean
-```
-
-*WIP* - **or you can use docker-compose for starting and watch all changes**
-```shell
-docker-compose up -d
-```
+Above file define the Pool alias for a very long name of diesel's type.
+Then we setup a new `actix-web` server in `src/main.rs`.
