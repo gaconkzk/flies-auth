@@ -26,6 +26,12 @@ Install it using `cargo`
 cargo install just
 ```
 
+For faster build, we caching built 3rds using `sccache`
+
+```shell
+cargo install sccache
+```
+
 For building normal
 ```shell
 just build
@@ -48,7 +54,9 @@ for rebuild.
 cargo install watchexec
 ```
 
-*WIP* - **or you can use docker-compose for starting and watch all changes** Will be updated with details when this is done
+For the first time, we need to start the postgres database server with cmd: `just startdb`
+
+Then enable live-coding with this command (service will be rebuild/restart)
 ```shell
-docker-compose up -d
+just watch
 ```
