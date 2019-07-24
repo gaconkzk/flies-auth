@@ -2,11 +2,11 @@
 use actix_web::{error::ResponseError, HttpResponse};
 use derive_more::Display;
 use diesel::result::{DatabaseErrorKind, Error as DBError};
-use lettre::error::Error as EmailError;
-use lettre_email::error::Error as EmailBuilderError;
-use lettre::smtp::error::Error as SmtpEmailError;
+// use lettre::error::Error as EmailError;
+// use lettre_email::error::Error as EmailBuilderError;
+// use lettre::smtp::error::Error as SmtpEmailError;
 use std::convert::From;
-use std::env::VarError;
+// use std::env::VarError;
 use uuid::parser::ParseError;
 
 #[derive(Debug, Display)]
@@ -61,36 +61,36 @@ impl From<DBError> for ServiceError {
   }
 }
 
-impl From<EmailError> for ServiceError {
-  fn from(error: EmailError) -> ServiceError {
-    match error {
-      EmailError::MissingFrom => ServiceError::EmailError("From address missing.".to_string()),
-      EmailError::MissingTo => ServiceError::EmailError("To address missing.".to_string()),
-      EmailError::InvalidEmailAddress => ServiceError::EmailError("Invalid email address.".to_string()),
-    }
-  }
-}
+// impl From<EmailError> for ServiceError {
+//   fn from(error: EmailError) -> ServiceError {
+//     match error {
+//       EmailError::MissingFrom => ServiceError::EmailError("From address missing.".to_string()),
+//       EmailError::MissingTo => ServiceError::EmailError("To address missing.".to_string()),
+//       EmailError::InvalidEmailAddress => ServiceError::EmailError("Invalid email address.".to_string()),
+//     }
+//   }
+// }
 
-impl From<SmtpEmailError> for ServiceError {
-  fn from(error: SmtpEmailError) -> ServiceError {
-    match error {
-      _ => ServiceError::EmailError("Error sending email.".to_string())
-    }
-  }
-}
+// impl From<SmtpEmailError> for ServiceError {
+//   fn from(error: SmtpEmailError) -> ServiceError {
+//     match error {
+//       _ => ServiceError::EmailError("Error sending email.".to_string())
+//     }
+//   }
+// }
 
-impl From<EmailBuilderError> for ServiceError {
-  fn from(error: EmailBuilderError) -> ServiceError {
-    match error {
-      _ => ServiceError::EmailError("Error create the email".to_string()),
-    }
-  }
-}
+// impl From<EmailBuilderError> for ServiceError {
+//   fn from(error: EmailBuilderError) -> ServiceError {
+//     match error {
+//       _ => ServiceError::EmailError("Error create the email".to_string()),
+//     }
+//   }
+// }
 
-impl From<VarError> for ServiceError {
-  fn from(error: VarError) -> ServiceError {
-    match error {
-      _ => ServiceError::EmailError("Error getting email credentials from Environment".to_string()),
-    }
-  }
-}
+// impl From<VarError> for ServiceError {
+//   fn from(error: VarError) -> ServiceError {
+//     match error {
+//       _ => ServiceError::EmailError("Error getting email credentials from Environment".to_string()),
+//     }
+//   }
+// }

@@ -23,7 +23,6 @@ ADD .deploy/flies-auth ${APP_HOME}
 # APP Environments
 ENV RUST_LOG="actix_web=info,actix_server=info"
 ENV FA_DATABASE_URL="postgres://username:password@hostname:port/database"
-ENV FA_PORT=8088
-EXPOSE ${FA_PORT}
+EXPOSE 8080
 
 CMD ["/home/flies/auth/flies-auth"]

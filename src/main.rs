@@ -5,8 +5,6 @@
 extern crate diesel;
 #[macro_use]
 extern crate serde_derive;
-#[macro_use]
-extern crate log;
 
 use actix_identity::{CookieIdentityPolicy, IdentityService};
 use actix_web::{middleware, web, App, HttpServer, HttpResponse};
@@ -32,8 +30,9 @@ fn main() -> std::io::Result<()> {
     let pool: models::Pool = r2d2::Pool::builder()
         .build(manager)
         .expect("Sorry, we can't create pool.");
-    let domain: String = std::env::var("DOMAIN").unwrap_or_else(|_| "localhost".to_string());
-    let port: String = std::env::var("PORT").unwrap_or_else(|_| "8088".to_string());
+    let domain: String = std::env::var("FA_DOMAIN").unwrap_or_else(|_| "localhost".to_string());
+    let bind_domain = domain.clone();
+    let port: String = "8080".to_string();
 
     // Start the http server
     HttpServer::new(move || {
@@ -54,10 +53,10 @@ fn main() -> std::io::Result<()> {
           .data(web::JsonConfig::default().limit(8048))
           .service(
             web::scope("/api")
-              // .service(
-              //   web::resource("/invitation")
-              //     .route(web::post().to_async(invitation::handler::post_invitation)),
-              // )
+              .service(
+                web::resource("/invitation")
+                  .route(web::post().to_async(invitation::handler::post_invitation)),
+              )
               .service(
                 web::resource("/register/{invitation_id}")
                   .route(web::post().to(||{})),
@@ -74,6 +73,6 @@ fn main() -> std::io::Result<()> {
               .body("Hello actix!")
           })))
     })
-    .bind(format!("127.0.0.1:{}",port))?
+    .bind(format!("{}:{}",bind_domain, port))?
     .run()
 }

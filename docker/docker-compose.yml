@@ -1,17 +1,18 @@
-version: '3.3'
+version: "3.7"
 
 services:
   auth:
+    container_name: flies_auth
     image: flies-auth
     restart: always
-    environment:
-      FA_PORT: 8088
-      FA_DATABASE_URL: postgres://flies_auth:fl13s_Auth@db:5432/flies_auth
-      # GMAIL_USERNAME: gaconkzk@gmail.com
-      # GMAIL_PASSWORD: QW3rT(1234)
+    env_file:
+      - ../.env
     ports:
-      - 127.0.0.1:8088:8088
+      - 8180:8080
+    depends_on:
+      - db
   db:
+    container_name: flies_postgres
     image: postgres
     restart: always
     hostname: postgresdb
@@ -26,10 +27,3 @@ services:
 
 volumes:
   flies_postgres:
-
-networks:
-  default:
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.10.11.1/22"

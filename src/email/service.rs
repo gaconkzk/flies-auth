@@ -2,11 +2,7 @@
 use crate::errors::ServiceError;
 use crate::models::Invitation;
 
-use lettre::{EmailAddress, Transport, Envelope, SmtpClient};
-use lettre_email::{Email, EmailBuilder, mime::TEXT_PLAIN};
-use lettre::smtp::{response::Response, authentication::Credentials};
-use std::env;
-use log::{info, debug};
+use log::debug;
 
 pub fn send_invitation(invitation: &Invitation) -> Result<(), ServiceError> {
   // let email = Email::builder()
@@ -22,7 +18,7 @@ pub fn send_invitation(invitation: &Invitation) -> Result<(), ServiceError> {
   // // let mut mailer = SmtpClient::new_simple("smtp.gmail.com")?
   // //   .credentials(Credentials::new(env::var("GMAIL_USERNAME")?, env::var("GMAIL_PASSWORD")?)).transport();
 
-  // // info!("Mailer created");
+  // // debug!("Mailer created");
 
   // let mut mailer = SmtpClient::new_unencrypted_localhost()?.transport();
   // let result = mailer.send(email.into())?;
